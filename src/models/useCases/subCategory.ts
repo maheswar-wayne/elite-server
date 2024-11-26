@@ -13,7 +13,7 @@ export const create = async (data: Partial<ISubCategory>) => {
 
 export const findAll = async () => {
   try {
-    return await SubCategory.find();
+    return await SubCategory.find().populate('category');
   } catch (error) {
     throw error;
   }
@@ -21,7 +21,7 @@ export const findAll = async () => {
 
 export const findOne = async (query: Partial<ISubCategory>) => {
   try {
-    return await SubCategory.findOne(query);
+    return await SubCategory.findOne(query).populate('category');
   } catch (error) {
     throw error;
   }

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const subCategorySchema = new Schema(
+const collectionSchema = new Schema(
   {
     name: {
       type: String,
@@ -10,6 +10,11 @@ const subCategorySchema = new Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Categories',
+      required: true
+    },
+    subCategory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'subCategories',
       required: true
     },
     imgURL: {
@@ -22,5 +27,5 @@ const subCategorySchema = new Schema(
   }
 );
 
-const SubCategory = mongoose.model('subCategories', subCategorySchema);
-export default SubCategory;
+const Collection = mongoose.model('collection', collectionSchema);
+export default Collection;
