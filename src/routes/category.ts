@@ -5,7 +5,7 @@ import { categoryBodySchema } from '../schema/category';
 
 const router = Router();
 
-router.route('/uploadImage').get(categoryController.uploadImage);
+router.route('/upload-image').post(categoryController.uploadImage);
 
 router.route('/').get(categoryController.findAll);
 router.route('/search').get(categoryController.findByName);

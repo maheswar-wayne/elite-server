@@ -6,7 +6,7 @@ import { uploadFileToS3 } from '../utils/uploadToS3';
 
 export const create = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { name, imageURL } = req.body;
+    const { name, imgURL } = req.body;
     const isExists = await Category.findOne({ name });
     if (isExists)
       return res.status(200).json(
@@ -16,7 +16,7 @@ export const create = async (req: Request, res: Response): Promise<any> => {
         })
       );
 
-    const category = await Category.create({ name, imageURL });
+    const category = await Category.create({ name, imgURL });
 
     return res.status(200).json(
       successRes({
@@ -110,7 +110,7 @@ export const findByName = async (
 export const update = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
-    const { name, imageURL } = req.body;
+    const { name, imgURL } = req.body;
 
     const category = await Category.findOne({ _id: id });
     if (!category)
@@ -121,7 +121,7 @@ export const update = async (req: Request, res: Response): Promise<any> => {
         })
       );
 
-    const updatedCategory = await Category.updateOne(id, { name, imageURL });
+    const updatedCategory = await Category.updateOne(id, { name, imgURL });
 
     return res.status(200).json(
       successRes({
@@ -173,9 +173,9 @@ export const deleteOne = async (req: Request, res: Response): Promise<any> => {
 
 export const uploadImage = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { base64, filename, format } = req.body;
-    const filePath = `images/category/${filename}`;
-    const url = await uploadFileToS3(base64, filePath, filename, format);
+    const { base64, fileName, format } = req.body;
+    const filePath = `images/category/${fileName}`;
+    const url = await uploadFileToS3(base64, filePath, fileName, format);
 
     return res.status(200).json(
       successRes({
