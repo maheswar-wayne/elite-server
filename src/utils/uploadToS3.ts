@@ -25,7 +25,6 @@ export const uploadFileToS3 = async (
     const key = `${filePath}/${filename}.${format}`;
     const buffer = Buffer.from(base64, 'base64');
     const contentType = getContentType(format);
-    console.log('🚀 ~ contentType:', contentType);
 
     if (!contentType) {
       throw new Error('Invalid file format');
