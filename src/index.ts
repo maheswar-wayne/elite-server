@@ -22,6 +22,4 @@ connection();
 app.use('/api/v1', router);
 
 // Start the Server
-app.listen(PORT, () =>
-    console.log(`🚀 Server Started At http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`🚀 Server Started At http://localhost:${PORT}`));
