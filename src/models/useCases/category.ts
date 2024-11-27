@@ -2,42 +2,33 @@ import { ICategory } from '../../types/category';
 import Category from '../entities/category';
 
 export const create = async (data: Partial<ICategory>) => {
-  try {
-    const category = new Category(data);
-    return await category.save();
-  } catch (error) {
-    throw error;
-  }
+  const category = new Category(data);
+  return await category.save();
 };
 
-export const findAll = async () => {
-  try {
-    return await Category.find();
-  } catch (error) {
-    throw error;
-  }
+export const findAll = async ({ limit = 10, page = 1 }: { limit?: number; page?: number }) => {
+  return await Category.find()
+    .limit(limit)
+    .skip(page - 1);
 };
 
 export const findOne = async (query: Partial<ICategory>) => {
-  try {
-    return await Category.findOne(query);
-  } catch (error) {
-    throw error;
-  }
+  return await Category.findOne(query);
+};
+
+export const search = async (
+  query: Partial<ICategory>,
+  { limit = 10, page = 1 }: { limit?: number; page?: number }
+) => {
+  return await Category.find({ $regex: `^${query.name}`, $options: 'i' })
+    .limit(limit)
+    .skip((page - 1) * limit);
 };
 
 export const updateOne = async (id: string, data: Partial<ICategory>) => {
-  try {
-    return await Category.updateOne({ _id: id }, data);
-  } catch (error) {
-    throw error;
-  }
+  return await Category.updateOne({ _id: id }, data);
 };
 
 export const deleteOne = async (id: string) => {
-  try {
-    return await Category.deleteOne({ _id: id });
-  } catch (error) {
-    throw error;
-  }
+  return await Category.deleteOne({ _id: id });
 };

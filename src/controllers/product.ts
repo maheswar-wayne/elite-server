@@ -40,7 +40,8 @@ export const create = async (req: Request, res: Response): Promise<any> => {
 
 export const findAll = async (req: Request, res: Response): Promise<any> => {
   try {
-    const subCategories = await Product.findAll();
+    const { limit, page }: { limit?: number; page?: number } = req.query;
+    const subCategories = await Product.findAll({ limit, page });
 
     return res.status(200).json(
       successRes({
@@ -83,13 +84,15 @@ export const findOne = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const findByName = async (
-  req: Request<any, any, any, { name: string }>,
-  res: Response
-): Promise<any> => {
+export const findByName = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { name }: { name: string } = req.query;
-    const collection = await Product.findOne({ modelName: name });
+    const { limit, page, name }: { limit?: number; page?: number; name: string } =
+      req.query as unknown as {
+        limit?: number;
+        page?: number;
+        name: string;
+      };
+    const collection = await Product.search({ modelName: name }, { limit, page });
 
     if (!collection)
       return res.status(200).json(

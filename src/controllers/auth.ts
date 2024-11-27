@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
     @description: This file contains all the controllers for the auth routes
     @author: [maheswar-wayne, sant]
@@ -37,6 +38,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log("🚀 ~ register ~ error:", error)
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -82,6 +84,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log("🚀 ~ login ~ error:", error)
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,

@@ -27,5 +27,5 @@ const collectionSchema = new Schema(
   }
 );
 
-const Collection = mongoose.model('collection', collectionSchema);
+const Collection = mongoose.model('productCollection', collectionSchema);
 export default Collection;

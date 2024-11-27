@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import * as SubCategory from '../models/useCases/subCategory';
 import { successRes } from '../configs/responseConfig';
@@ -26,6 +27,7 @@ export const create = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log('🚀 ~ create ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -37,7 +39,8 @@ export const create = async (req: Request, res: Response): Promise<any> => {
 
 export const findAll = async (req: Request, res: Response): Promise<any> => {
   try {
-    const subCategories = await SubCategory.findAll();
+    const { limit, page }: { limit?: number; page?: number } = req.query;
+    const subCategories = await SubCategory.findAll({ limit, page });
 
     return res.status(200).json(
       successRes({
@@ -47,6 +50,7 @@ export const findAll = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log('🚀 ~ findAll ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -69,6 +73,7 @@ export const findOne = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log('🚀 ~ findOne ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -78,14 +83,16 @@ export const findOne = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const findByName = async (
-  req: Request<{}, {}, {}, { name: string }>,
-  res: Response
-): Promise<any> => {
+export const findByName = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { name }: { name: string } = req.query;
-    const subCategory = await SubCategory.findOne({ name });
+    const { name, limit, page }: { name: string; limit?: number; page?: number } =
+      req.query as unknown as {
+        name: string;
+        limit?: number;
+        page?: number;
+      };
 
+    const subCategory = await SubCategory.search({ name }, { limit, page });
     if (!subCategory)
       return res.status(200).json(
         successRes({
@@ -102,6 +109,7 @@ export const findByName = async (
       })
     );
   } catch (error) {
+    console.log('🚀 ~ findByName ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -135,6 +143,7 @@ export const update = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log('🚀 ~ update ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -166,6 +175,7 @@ export const deleteOne = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log('🚀 ~ deleteOne ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -191,6 +201,7 @@ export const uploadImage = async (req: Request, res: Response): Promise<any> => 
       })
     );
   } catch (error) {
+    console.log('🚀 ~ uploadImage ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
