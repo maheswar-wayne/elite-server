@@ -50,6 +50,7 @@ export const findAll = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
+    console.log("🚀 ~ findAll ~ error:", error)
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,

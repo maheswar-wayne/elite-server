@@ -22,7 +22,13 @@ export const search = async (
   query: Partial<ICollection>,
   { limit = 10, page = 1 }: { limit?: number; page?: number }
 ) => {
-  return await Collection.find({ $regex: `^${query.name}`, $options: 'i' })
+  const mongoQuery: Record<string, unknown> = {};
+
+  if (query.name) {
+    mongoQuery.name = { $regex: `^${query.name}`, $options: 'i' };
+  }
+
+  return await Collection.find(mongoQuery)
     .populate('category')
     .populate('subCategory')
     .limit(limit)

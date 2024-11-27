@@ -21,7 +21,13 @@ export const search = async (
   query: Partial<ISubCategory>,
   { limit = 10, page = 1 }: { limit?: number; page?: number }
 ) => {
-  return await SubCategory.find({ $regex: `^${query.name}`, $options: 'i' })
+  const mongoQuery: Record<string, unknown> = {};
+
+  if (query.name) {
+    mongoQuery.name = { $regex: `^${query.name}`, $options: 'i' };
+  }
+
+  return await SubCategory.find(mongoQuery)
     .populate('category')
     .limit(limit)
     .skip(page - 1);

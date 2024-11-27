@@ -16,11 +16,20 @@ export const findAll = async ({ limit = 10, page = 1 }: { limit?: number; page?:
 };
 
 export const findOne = async (query: Partial<IProduct>) => {
-  return await Product.findOne(query).populate('category').populate('subCategory');
+  return await Product.find(query)
+    .populate('category')
+    .populate('subCategory')
+    .populate('productCollection');
 };
 
 export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 }) => {
-  return await Product.find(query)
+  const mongoQuery: Record<string, unknown> = {};
+
+  if (query.modelName) {
+    mongoQuery.modelName = { $regex: `^${query.modelName}`, $options: 'i' };
+  }
+
+  return await Product.find(mongoQuery)
     .populate('category')
     .populate('subCategory')
     .populate('productCollection')

@@ -20,7 +20,13 @@ export const search = async (
   query: Partial<ICategory>,
   { limit = 10, page = 1 }: { limit?: number; page?: number }
 ) => {
-  return await Category.find({ $regex: `^${query.name}`, $options: 'i' })
+  const mongoQuery: Record<string, unknown> = {};
+
+  if (query.name) {
+    mongoQuery.name = { $regex: `^${query.name}`, $options: 'i' };
+  }
+
+  return await Category.find(mongoQuery)
     .limit(limit)
     .skip((page - 1) * limit);
 };
