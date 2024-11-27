@@ -9,9 +9,13 @@ import bcrypt from 'bcrypt';
 
 import * as User from '../models/useCases/user';
 import { IUser } from '../types/user';
-import { successRes } from '../configs/responseConfig';
+import { errorRes, successRes } from '../configs/responseConfig';
 import { responseCodes } from '../configs/responseCodes';
-import { generateAccessToken, generateRefreshToken } from '../utils/generateTokens';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken
+} from '../utils/generateTokens';
 
 export const register = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -89,6 +93,39 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       successRes({
         statusCode: responseCodes.serverError,
         message: 'Internal server error'
+      })
+    );
+  }
+};
+
+export const getRefreshToken = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { refreshToken } = req.body;
+    const isValidRefreshToken: IUser = (await verifyRefreshToken(refreshToken)) as IUser;
+    if (!isValidRefreshToken)
+      return res.send(
+        errorRes({
+          message: 'Invalid Token',
+          statusCode: responseCodes.unAuthorized
+        })
+      );
+
+    const accessToken = await generateAccessToken(isValidRefreshToken);
+
+    return res.send(
+      successRes({
+        message: 'Refresh Token Generated Successfully',
+        statusCode: responseCodes.success,
+        data: {
+          accessToken
+        }
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    return res.send(
+      errorRes({
+        statusCode: responseCodes.serverError
       })
     );
   }
