@@ -50,7 +50,7 @@ export const findAll = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
-    console.log("🚀 ~ findAll ~ error:", error)
+    console.log('🚀 ~ findAll ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -139,7 +139,7 @@ export const update = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
-    console.log("🚀 ~ update ~ error:", error)
+    console.log('🚀 ~ update ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -171,7 +171,7 @@ export const deleteOne = async (req: Request, res: Response): Promise<any> => {
       })
     );
   } catch (error) {
-    console.log("🚀 ~ deleteOne ~ error:", error)
+    console.log('🚀 ~ deleteOne ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -197,7 +197,7 @@ export const uploadImage = async (req: Request, res: Response): Promise<any> => 
       })
     );
   } catch (error) {
-    console.log("🚀 ~ uploadImage ~ error:", error)
+    console.log('🚀 ~ uploadImage ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,

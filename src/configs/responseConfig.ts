@@ -10,6 +10,7 @@ export const successRes = ({
 }: {
   statusCode: number;
   message: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
 }) => {
   return {
@@ -27,6 +28,7 @@ export const errorRes = ({
 }: {
   statusCode: number;
   message?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
 }) => {
   if (!message && statusCode === 500) message = 'Internal Server Error';

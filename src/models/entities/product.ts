@@ -3,16 +3,16 @@ import mongoose, { Schema } from 'mongoose';
 const productSchema = new Schema(
   {
     modelName: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     material: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
-    size:{
-        type: String,
-        required: true,
+    size: {
+      type: String,
+      required: true
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -24,19 +24,19 @@ const productSchema = new Schema(
       ref: 'subCategories',
       required: true
     },
-    collection:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'collection',
-        required: true
+    collection: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'collection',
+      required: true
     },
     description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     imgURL: {
       type: Array,
       required: true
-    },
+    }
   },
   {
     timestamps: true

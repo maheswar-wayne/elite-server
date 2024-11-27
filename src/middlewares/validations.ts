@@ -10,6 +10,7 @@ import { errorRes } from '../configs/responseConfig';
 
 const mapError = (error: ZodError) => {
   if (error instanceof ZodError) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errorMessages = error.errors.map((issue: any) => ({
       field: `${issue.path.join('.')}`,
       message: `${issue.message}`
@@ -19,6 +20,7 @@ const mapError = (error: ZodError) => {
   return error;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateBody = (schema: z.ZodObject<any, any>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -45,6 +47,7 @@ export const validateBody = (schema: z.ZodObject<any, any>) => {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateParams = (schema: z.ZodObject<any, any>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
