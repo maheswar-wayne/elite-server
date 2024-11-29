@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
     const data: IUser = req.body;
     const userData = await User.findOne(data.email);
 
-    if (!userData)
+    if (userData)
       return res.status(200).json(
         successRes({
           statusCode: responseCodes.badRequest,
