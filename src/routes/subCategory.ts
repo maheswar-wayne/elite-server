@@ -9,9 +9,10 @@ const router = Router();
 
 router.route('/upload-image').post(authenticateJWT, isAdmin, subCategoryController.uploadImage);
 
-router.route('/').get(authenticateJWT, subCategoryController.findAll);
-router.route('/search').get(authenticateJWT, subCategoryController.findByName);
-router.route('/:id').get(authenticateJWT, subCategoryController.findOne);
+router.route('/').get(subCategoryController.findAll);
+router.route('/search').get(subCategoryController.findByName);
+router.route('/by-category').get(subCategoryController.findByCategory);
+router.route('/:id').get(subCategoryController.findOne);
 
 router.route('/:id').delete(authenticateJWT, isAdmin, subCategoryController.deleteOne);
 router

@@ -10,9 +10,9 @@ const router = Router();
 
 router.route('/upload-image').post(authenticateJWT, isAdmin, categoryController.uploadImage);
 
-router.route('/').get(authenticateJWT, categoryController.findAll);
-router.route('/search').get(authenticateJWT, categoryController.findByName);
-router.route('/:id').get(authenticateJWT, categoryController.findOne);
+router.route('/').get( categoryController.findAll);
+router.route('/search').get( categoryController.findByName);
+router.route('/:id').get( categoryController.findOne);
 
 router
   .route('/:id')

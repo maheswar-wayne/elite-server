@@ -119,6 +119,42 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+export const findByCategory = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { name, limit, page }: { name: string; limit?: number; page?: number } =
+      req.query as unknown as {
+        name: string;
+        limit?: number;
+        page?: number;
+      };
+
+    const subCategory = await SubCategory.findByCategory({ name }, { limit, page });
+    if (!subCategory)
+      return res.status(200).json(
+        successRes({
+          statusCode: responseCodes.notFound,
+          message: 'Sub Category not found'
+        })
+      );
+
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.success,
+        message: 'Sub Category found',
+        data: subCategory
+      })
+    );
+  } catch (error) {
+    console.log('🚀 ~ findByName ~ error:', error);
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.serverError,
+        message: 'Internal server error'
+      })
+    );
+  }
+};
+
 export const update = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;

@@ -10,9 +10,10 @@ const router = Router();
 
 router.route('/upload-image').post(authenticateJWT, isAdmin, collectionController.uploadImage);
 
-router.route('/').get(authenticateJWT, collectionController.findAll);
-router.route('/search').get(authenticateJWT, collectionController.findByName);
-router.route('/:id').get(authenticateJWT, collectionController.findOne);
+router.route('/').get( collectionController.findAll);
+router.route('/search').get( collectionController.findByName);
+router.route('/by-subCategory').get( collectionController.findBySubCategory);
+router.route('/:id').get( collectionController.findOne);
 
 router
   .route('/')

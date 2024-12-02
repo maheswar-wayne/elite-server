@@ -9,9 +9,10 @@ const router = Router();
 
 router.route('/upload-image').post(authenticateJWT, isAdmin, productController.uploadImage);
 
-router.route('/').get(authenticateJWT, productController.findAll);
-router.route('/search').get(authenticateJWT, productController.findByName);
-router.route('/:id').get(authenticateJWT, productController.findOne);
+router.route('/').get(productController.findAll);
+router.route('/search').get(productController.findByName);
+router.route('/by-collection').get(productController.findByCollection);
+router.route('/:id').get(productController.findOne);
 
 router
   .route('/')

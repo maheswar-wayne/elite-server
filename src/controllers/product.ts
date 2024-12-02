@@ -120,6 +120,42 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+export const findByCollection = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { limit, page, name }: { limit?: number; page?: number; name: string } =
+      req.query as unknown as {
+        limit?: number;
+        page?: number;
+        name: string;
+      };
+    const collection = await Product.findByCollection({ _id: name }, { limit, page });
+
+    if (!collection)
+      return res.status(200).json(
+        successRes({
+          statusCode: responseCodes.notFound,
+          message: 'Product not found'
+        })
+      );
+
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.success,
+        message: 'Product found',
+        data: collection
+      })
+    );
+  } catch (error) {
+    console.log('🚀 ~ error:', error);
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.serverError,
+        message: 'Internal server error'
+      })
+    );
+  }
+};
+
 export const update = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;

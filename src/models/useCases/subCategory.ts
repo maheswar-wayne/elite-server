@@ -1,5 +1,6 @@
 import { ISubCategory } from '../../types/subCategory';
 import SubCategory from '../entities/subCategory';
+import Category from '../entities/category';
 
 export const create = async (data: Partial<ISubCategory>) => {
   const subCategory = new SubCategory(data);
@@ -28,6 +29,20 @@ export const search = async (
   }
 
   return await SubCategory.find(mongoQuery)
+    .populate('category')
+    .limit(limit)
+    .skip(page - 1);
+};
+
+export const findByCategory = async (
+  query: Partial<ISubCategory>,
+  { limit = 10, page = 1 }: { limit?: number; page?: number }
+) => {
+  const category = await Category.findOne({ name: query.name });
+
+  if (!category) return [];
+
+  return await SubCategory.find({ category: category._id })
     .populate('category')
     .limit(limit)
     .skip(page - 1);

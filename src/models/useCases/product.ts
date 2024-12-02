@@ -1,4 +1,5 @@
 import { IProduct } from '../../types/product';
+import Collection from '../entities/collection';
 import Product from '../entities/product';
 
 export const create = async (data: Partial<IProduct>) => {
@@ -30,6 +31,16 @@ export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 })
   }
 
   return await Product.find(mongoQuery)
+    .populate('category')
+    .populate('subCategory')
+    .populate('collection')
+    .limit(limit)
+    .skip(page - 1);
+};
+
+export const findByCollection = async (query: Partial<IProduct>, { limit = 10, page = 1 }) => {
+
+  return await Product.find({ collection: query._id })
     .populate('category')
     .populate('subCategory')
     .populate('collection')
