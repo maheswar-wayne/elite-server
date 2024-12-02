@@ -16,6 +16,15 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
+    status: {
+      type: String,
+      enum: ['ACTIVE', 'DECLINED', 'PENDING'],
+      default: 'PENDING'
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false
+    },
     role: {
       type: String,
       enum: ['ADMIN'],

@@ -65,6 +65,14 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         })
       );
 
+    if (userData.isBlocked)
+      return res.status(200).json(
+        successRes({
+          statusCode: responseCodes.unAuthorized,
+          message: 'Blocked user'
+        })
+      );
+
     const isPasswordMatched = await bcrypt.compare(password, userData.password);
 
     if (!isPasswordMatched)

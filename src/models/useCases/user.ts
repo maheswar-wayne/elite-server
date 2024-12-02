@@ -7,8 +7,16 @@ export const create = async (data: IUser) => {
   return await registeredUser.save();
 };
 
+export const findAll = async () => {
+  return await USER.find();
+};
+
 export const findOne = async (email: string) => {
   return await USER.findOne({ email });
+};
+
+export const findById = async (id: string) => {
+  return await USER.findOne({ _id:id });
 };
 
 export const updateOne = async (id: mongoose.Types.ObjectId, data: Partial<IUser>) => {

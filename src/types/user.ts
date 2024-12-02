@@ -6,6 +6,8 @@ export interface IUser {
   email: string;
   password: string;
   role: 'ADMIN';
+  status: 'ACTIVE' | 'DECLINED' | 'PENDING';
+  isBlocked: boolean;
   accessToken?: string;
   refreshToken?: string;
   createdAt?: Date;

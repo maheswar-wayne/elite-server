@@ -1,12 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
+import * as User from '../models/useCases/user';
 import jwt from 'jsonwebtoken';
+import { errorRes } from '../configs/responseConfig';
+import { responseCodes } from '../configs/responseCodes';
+import { IUser } from '../types/user';
 
-interface JwtPayload {
-  userId: string;
-}
+const isValidUser = async (userId: string) => {
+  const user = await User.findById(userId);
+
+  if (!user) return 'User not found';
+  if (user.isBlocked) return 'User is blocked';
+  if (user.status !== 'ACTIVE') return 'User not active';
+  return true;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const authenticateJWT = (req: Request, res: Response, next: NextFunction): any => {
+export const authenticateJWT = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -25,17 +34,30 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
 
   try {
     const secretKey = process.env.JWT_ACCESS_TOKEN || '';
-    const decoded = jwt.verify(token, secretKey) as JwtPayload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const decoded: any = jwt.verify(token, secretKey) as IUser;
     console.log('🚀 ~ authenticateJWT ~ decoded:', decoded);
 
     //@ts-expect-error !! adding REQ.USER to request object
     req.user = decoded;
 
+    const isValid = await isValidUser(decoded._id);
+    if (isValid !== true)
+      return res.status(200).json(
+        errorRes({
+          statusCode: responseCodes.unAuthorized,
+          message: isValid
+        })
+      );
+
     next();
   } catch (err) {
     console.log('🚀 ~ authenticateJWT ~ err:', err);
-    return res.status(403).json({
-      message: 'Invalid or expired token'
-    });
+    return res.status(403).json(
+      errorRes({
+        statusCode: responseCodes.unAuthorized,
+        message: 'Invalid or expired token'
+      })
+    );
   }
 };
