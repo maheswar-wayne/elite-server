@@ -10,7 +10,7 @@ export const findAll = async ({ limit = 10, page = 1 }: { limit?: number; page?:
   return await Product.find()
     .populate('category')
     .populate('subCategory')
-    .populate('productCollection')
+    .populate('collection')
     .limit(limit)
     .skip(page - 1);
 };
@@ -19,7 +19,7 @@ export const findOne = async (query: Partial<IProduct>) => {
   return await Product.find(query)
     .populate('category')
     .populate('subCategory')
-    .populate('productCollection');
+    .populate('collection');
 };
 
 export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 }) => {
@@ -32,7 +32,7 @@ export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 })
   return await Product.find(mongoQuery)
     .populate('category')
     .populate('subCategory')
-    .populate('productCollection')
+    .populate('collection')
     .limit(limit)
     .skip(page - 1);
 };

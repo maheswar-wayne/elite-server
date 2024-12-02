@@ -8,6 +8,7 @@ export interface IProduct {
   collection: mongoose.Types.ObjectId | string;
   description: string;
   material: string;
+  color: string[];
   size: string;
   imgURL: string[];
   imageURL: string;

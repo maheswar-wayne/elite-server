@@ -10,6 +10,10 @@ const productSchema = new Schema(
       type: String,
       required: true
     },
+    color: {
+      type: Array,
+      required: true
+    },
     size: {
       type: String,
       required: true
@@ -26,7 +30,7 @@ const productSchema = new Schema(
     },
     collection: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'collection',
+      ref: 'productCollection',
       required: true
     },
     description: {

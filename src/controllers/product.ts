@@ -10,7 +10,7 @@ export const create = async (req: Request, res: Response): Promise<any> => {
   try {
     const productData: IProduct = req.body;
     const isExists = await Product.findOne({ modelName: productData.modelName });
-    if (isExists)
+    if (isExists.length > 0)
       return res.status(200).json(
         successRes({
           statusCode: responseCodes.badRequest,
