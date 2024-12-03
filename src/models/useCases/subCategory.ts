@@ -48,6 +48,10 @@ export const findByCategory = async (
     .skip(page - 1);
 };
 
+export const findByCategoryId = async (query: Partial<ISubCategory>) => {
+  return await SubCategory.find({ category: query.category }).populate('category');
+};
+
 export const updateOne = async (id: string, data: Partial<ISubCategory>) => {
   return await SubCategory.updateOne({ _id: id }, data);
 };

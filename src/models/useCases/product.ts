@@ -1,5 +1,4 @@
 import { IProduct } from '../../types/product';
-import Collection from '../entities/collection';
 import Product from '../entities/product';
 
 export const create = async (data: Partial<IProduct>) => {
