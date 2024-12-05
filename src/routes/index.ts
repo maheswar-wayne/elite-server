@@ -5,6 +5,7 @@ import subCategory from './subCategory';
 import collection from './collection';
 import product from './product';
 import users from './users';
+import customer from './customer';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/category', category);
 router.use('/subcategory', subCategory);
 router.use('/collection', collection);
 router.use('/product', product);
+router.use('/customer', customer);
 
 export default router;
