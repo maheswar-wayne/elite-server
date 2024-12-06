@@ -23,10 +23,7 @@ const customerSchema = new Schema(
         postal: {
             type: String,
             required: true,
-        },
-        refreshToken: {
-            type: String,
-        },
+        }
     },
     {
         timestamps: true,
