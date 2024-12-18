@@ -116,7 +116,7 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
 
 export const update = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { id } = req.params;
+        const id: string = req.params.id;
         const { name, email, mobile, address, postal } = req.body;
 
         const customer = await Customer.findOne({ _id: id });
@@ -128,7 +128,7 @@ export const update = async (req: Request, res: Response): Promise<any> => {
                 })
             );
 
-        const updatedCustomer = await Customer.updateOne(id, { name, email, mobile, address, postal });
+        const updatedCustomer = await Customer.updateOne(customer._id, { name, email, mobile, address, postal });
 
         return res.status(200).json(
             successRes({

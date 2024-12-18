@@ -1,13 +1,23 @@
 import { Router } from 'express';
-
 import { validateBody } from '../middlewares/validations';
-import * as authController from '../controllers/auth';
-import { loginSchema, registerSchema } from '../schema/auth';
+import * as adminController from '../controllers/admin';
+import { adminRegisterSchema, loginSchema } from '../schema/admin';
 
 const router = Router();
 
-router.route('/register').post(validateBody(registerSchema), authController.register);
-router.route('/login').post(validateBody(loginSchema), authController.login);
-router.route('/refresh-token').post(authController.getRefreshToken);
+// Wrapping the async handlers to ensure correct return types
+const asyncHandler = (fn: any) => {
+    return (req: any, res: any, next: any) => {
+        Promise.resolve(fn(req, res, next)).catch(next);
+    };
+};
+
+router
+    .route('/admin/register')
+    .post(validateBody(adminRegisterSchema), asyncHandler(adminController.register));
+
+router
+    .route('/admin/login')
+    .post(validateBody(loginSchema), asyncHandler(adminController.login));
 
 export default router;

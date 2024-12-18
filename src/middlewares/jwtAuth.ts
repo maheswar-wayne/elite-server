@@ -1,16 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import * as User from '../models/useCases/user';
+import * as User from '../models/useCases/admin';
 import jwt from 'jsonwebtoken';
 import { errorRes } from '../configs/responseConfig';
 import { responseCodes } from '../configs/responseCodes';
-import { IUser } from '../types/user';
+import { IAdmin } from '../types/auth';
 
 const isValidUser = async (userId: string) => {
   const user = await User.findById(userId);
 
   if (!user) return 'User not found';
-  if (user.isBlocked) return 'User is blocked';
-  if (user.status !== 'ACTIVE') return 'User not active';
   return true;
 };
 
@@ -35,7 +33,7 @@ export const authenticateJWT = async (req: Request, res: Response, next: NextFun
   try {
     const secretKey = process.env.JWT_ACCESS_TOKEN || '';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const decoded: any = jwt.verify(token, secretKey) as IUser;
+    const decoded: any = jwt.verify(token, secretKey) as IAdmin;
     console.log('🚀 ~ authenticateJWT ~ decoded:', decoded);
 
     //@ts-expect-error !! adding REQ.USER to request object

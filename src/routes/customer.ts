@@ -8,8 +8,6 @@ import { isAdmin } from '../middlewares/isAdmin';
 
 const router = Router();
 
-
-
 router.route('/').get( customerController.findAll);
 router.route('/search').get( customerController.findByName);
 router.route('/:id').get( customerController.findOne);

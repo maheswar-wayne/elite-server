@@ -6,7 +6,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-import { IUser } from '../types/user';
+import { IAdmin } from '../types/auth';
 
 dotenv.config();
 
@@ -14,13 +14,13 @@ const JWT_ACCESS_TOKEN: string = process.env.JWT_ACCESS_TOKEN || '';
 const JWT_REFRESH_TOKEN: string = process.env.JWT_REFRESH_TOKEN || '';
 
 export const generateAccessToken = async (
-  userData: Pick<IUser, '_id' | 'username' | 'email' | 'role'>
+  userData: Pick<IAdmin, '_id' | 'fullname' | 'email' | 'role'>
 ) => {
   return jwt.sign(
     {
       _id: userData._id,
       email: userData.email,
-      fullName: userData.username,
+      fullName: userData.fullname,
       role: userData.role
     },
     JWT_ACCESS_TOKEN,
@@ -31,13 +31,13 @@ export const generateAccessToken = async (
 };
 
 export const generateRefreshToken = async (
-  userData: Pick<IUser, '_id' | 'username' | 'email' | 'role'>
+  userData: Pick<IAdmin, '_id' | 'fullname' | 'email' | 'role'>
 ) => {
   return jwt.sign(
     {
       _id: userData._id,
       email: userData.email,
-      fullName: userData.username,
+      fullName: userData.fullname,
       role: userData.role
     },
     JWT_REFRESH_TOKEN

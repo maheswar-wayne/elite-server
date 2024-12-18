@@ -4,13 +4,13 @@ import category from './category';
 import subCategory from './subCategory';
 import collection from './collection';
 import product from './product';
-import users from './users';
+import admin from './admin';
 import customer from './customer';
 
 const router = Router();
 
 router.use('/auth', auth);
-router.use('/users', users);
+router.use('/admin', admin);
 router.use('/category', category);
 router.use('/subcategory', subCategory);
 router.use('/collection', collection);
