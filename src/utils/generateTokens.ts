@@ -25,7 +25,7 @@ export const generateAccessToken = async (
     },
     JWT_ACCESS_TOKEN,
     {
-      expiresIn: '15m'
+      expiresIn: '150m'
     }
   );
 };
