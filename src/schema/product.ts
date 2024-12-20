@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const collectionBodySchema = z.object({
+export const productBodySchema = z.object({
   modelName: z.string().min(2).max(20),
   description: z.string().min(2).max(200),
   material: z.string().min(2).max(50),
@@ -8,7 +8,6 @@ export const collectionBodySchema = z.object({
   size: z.string().min(2).max(50),
   category: z.string().min(2).max(50),
   subCategory: z.string().min(2).max(50),
-  collection: z.string().min(2).max(50),
   imgURL: z.array(z.string().min(2).max(150))
 });
 

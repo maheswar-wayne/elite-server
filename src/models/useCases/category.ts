@@ -38,3 +38,11 @@ export const updateOne = async (id: string, data: Partial<ICategory>) => {
 export const deleteOne = async (id: string) => {
   return await Category.deleteOne({ _id: id });
 };
+
+export const getLength = async () => {
+  try {
+      return await Category.countDocuments();
+  } catch (error) {
+      throw error;
+  }
+};

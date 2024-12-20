@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import * as Product from '../models/useCases/product';
+import * as SubCategory from "../models/useCases/subCategory"
 import { successRes } from '../configs/responseConfig';
 import { responseCodes } from '../configs/responseCodes';
 import { uploadFileToS3 } from '../utils/uploadToS3';
@@ -120,33 +121,29 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const findByCollection = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { limit, page, name }: { limit?: number; page?: number; name: string } =
-      req.query as unknown as {
-        limit?: number;
-        page?: number;
-        name: string;
-      };
-    const collection = await Product.findByCollection({ _id: name }, { limit, page });
 
-    if (!collection)
+export const findBySubCategoryId = async (req: Request, res: Response): Promise<any> => {
+  try {
+   const subCategory = req.params.id;
+
+    const subcategory = await Product.findBySubCategoryId({ subCategory });
+    if (!subcategory || subcategory.length === 0)
       return res.status(200).json(
         successRes({
           statusCode: responseCodes.notFound,
-          message: 'Product not found'
+          message: 'Sub Category not found'
         })
       );
 
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.success,
-        message: 'Product found',
-        data: collection
+        message: 'Sub Category found',
+        data: subcategory
       })
     );
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    console.log('🚀 ~ findByName ~ error:', error);
     return res.status(200).json(
       successRes({
         statusCode: responseCodes.serverError,
@@ -156,6 +153,47 @@ export const findByCollection = async (req: Request, res: Response): Promise<any
   }
 };
 
+export const findBySubCategory = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { name, limit = 10, page = 1 } = req.query as unknown as {
+      name: string;
+      limit?: number;
+      page?: number;
+    };
+
+    const subCategory = await SubCategory.findOne({ name });
+    if (!subCategory) {
+      return res.status(200).json(
+        successRes({
+          statusCode: responseCodes.notFound,
+          message: 'Subcategory not found'
+        })
+      );
+    }
+
+    const products = await Product.find({ subCategory: subCategory._id })
+      .populate('category')
+      .populate('subCategory')
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.success,
+        message: 'Products found',
+        data: products
+      })
+    );
+  } catch (error) {
+    console.log('🚀 ~ findBySubCategory ~ error:', error);
+    return res.status(500).json(
+      successRes({
+        statusCode: responseCodes.serverError,
+        message: 'Internal server error'
+      })
+    );
+  }
+};
 export const update = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;

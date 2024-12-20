@@ -45,3 +45,11 @@ export const updateOne = async (id: mongoose.Types.ObjectId, data: Partial<ICust
 export const deleteOne = async (id: string) => {
     return await Customer.deleteOne({ _id: id });
   };
+
+  export const getLength = async () => {
+    try {
+        return await Customer.countDocuments();
+    } catch (error) {
+        throw error;
+    }
+  };
