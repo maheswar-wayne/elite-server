@@ -12,7 +12,7 @@ router.route('/upload-image').post(authenticateJWT, isAdmin, productController.u
 router.route('/').get(productController.findAll);
 router.route('/search').get(productController.findByName);
 router.route('/by-subcategory').get(productController.findBySubCategory);
-router.route('/by-subcategoryId/:id').get(productController.findBySubCategory);
+router.route('/by-subcategoryId/:id').get(productController.findBySubCategoryId);
 router.route('/:id').get(productController.findOne);
 
 router

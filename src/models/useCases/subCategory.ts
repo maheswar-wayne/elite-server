@@ -61,9 +61,5 @@ export const deleteOne = async (id: string) => {
 };
 
 export const getLength = async () => {
-  try {
-      return await SubCategory.countDocuments();
-  } catch (error) {
-      throw error;
-  }
+  return await SubCategory.countDocuments();
 };

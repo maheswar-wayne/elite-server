@@ -15,10 +15,12 @@ export const findAll = async ({ limit = 10, page = 1 }: { limit?: number; page?:
     .skip(page - 1);
 };
 
+export const find = async (query: Partial<IProduct>) => {
+  return await Product.find(query).populate('category').populate('subCategory');
+};
+
 export const findOne = async (query: Partial<IProduct>) => {
-  return await Product.find(query)
-    .populate('category')
-    .populate('subCategory')
+  return await Product.find(query).populate('category').populate('subCategory');
 };
 
 export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 }) => {
@@ -50,7 +52,7 @@ export const findBySubCategory = async (
 };
 
 export const findBySubCategoryId = async (query: Partial<IProduct>) => {
-  return await Product.find({ 'subCategory._id': query.subCategory }).populate('subcategory');
+  return await Product.find(query).populate('category').populate('subCategory');
 };
 export const updateOne = async (id: string, data: Partial<IProduct>) => {
   return await Product.updateOne({ _id: id }, data);
@@ -61,9 +63,5 @@ export const deleteOne = async (id: string) => {
 };
 
 export const getLength = async () => {
-  try {
-      return await Product.countDocuments();
-  } catch (error) {
-      throw error;
-  }
+  return await Product.countDocuments();
 };

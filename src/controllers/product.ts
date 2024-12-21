@@ -172,10 +172,7 @@ export const findBySubCategory = async (req: Request, res: Response): Promise<an
     }
 
     const products = await Product.find({ subCategory: subCategory._id })
-      .populate('category')
-      .populate('subCategory')
-      .limit(limit)
-      .skip((page - 1) * limit);
+
 
     return res.status(200).json(
       successRes({
@@ -194,6 +191,7 @@ export const findBySubCategory = async (req: Request, res: Response): Promise<an
     );
   }
 };
+
 export const update = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
