@@ -20,5 +20,17 @@ export const findById = async (id: string) => {
 };
 
 export const updateOne = async (id: mongoose.Types.ObjectId, data: Partial<IUser>) => {
-  return await USER.updateOne({ _id: id }, data);
+  try {
+      return await USER.updateOne({ _id: id }, data);
+  } catch (error) {
+      throw error;
+  }
+};
+
+export const deleteOne = async (id: mongoose.Types.ObjectId) => {
+  try {
+      return await USER.deleteOne({ _id: id });
+  } catch (error) {
+      throw error;
+  }
 };

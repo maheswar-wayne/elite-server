@@ -59,3 +59,7 @@ export const updateOne = async (id: string, data: Partial<ISubCategory>) => {
 export const deleteOne = async (id: string) => {
   return await SubCategory.deleteOne({ _id: id });
 };
+
+export const getLength = async () => {
+  return await SubCategory.countDocuments();
+};

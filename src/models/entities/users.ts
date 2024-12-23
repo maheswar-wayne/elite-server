@@ -18,8 +18,8 @@ const userSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['ACTIVE', 'DECLINED', 'PENDING'],
-      default: 'PENDING'
+      enum: ['ACTIVE'],
+      default: 'ACTIVE'
     },
     isBlocked: {
       type: Boolean,

@@ -19,18 +19,13 @@ const productSchema = new Schema(
       required: true
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
       ref: 'Categories',
       required: true
     },
     subCategory: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'subCategories',
-      required: true
-    },
-    collection: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'productCollection',
       required: true
     },
     description: {

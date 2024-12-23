@@ -5,7 +5,6 @@ export interface IProduct {
   modelName: string;
   category: mongoose.Types.ObjectId | string;
   subCategory: mongoose.Types.ObjectId | string;
-  collection: mongoose.Types.ObjectId | string;
   description: string;
   material: string;
   color: string[];
