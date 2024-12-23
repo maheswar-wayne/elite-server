@@ -10,7 +10,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8081;
 
-// Middleware
+
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(cors({}));
