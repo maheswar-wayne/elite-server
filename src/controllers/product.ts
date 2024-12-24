@@ -260,6 +260,13 @@ export const deleteOne = async (req: Request, res: Response): Promise<any> => {
 export const uploadImage = async (req: Request, res: Response): Promise<any> => {
   try {
     const productData = req.body;
+    // Check if images is defined and is an array
+    if (!Array.isArray(productData.images)) {
+      return res.status(400).json({
+        statusCode: responseCodes.badRequest,
+        message: 'Images must be an array',
+      });
+    }
 
     const uploadedUrls: string[] = [];
 
