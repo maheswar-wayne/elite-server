@@ -23,6 +23,10 @@ export const findOne = async (query: Partial<IProduct>) => {
   return await Product.find(query).populate('category').populate('subCategory');
 };
 
+
+export const findByModelName = async (query: Partial<IProduct>) => {
+  return await Product.findOne(query);
+};
 export const search = async (query: Partial<IProduct>, { limit = 10, page = 1 }) => {
   const mongoQuery: Record<string, unknown> = {};
 

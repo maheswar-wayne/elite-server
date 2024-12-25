@@ -85,6 +85,39 @@ export const findOne = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+export const findByModelName = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { modelName } = req.params;
+    const collection = await Product.findOne({ modelName });
+
+    if (!collection) {
+      return res.status(404).json(
+        successRes({
+          statusCode: responseCodes.notFound,
+          message: 'Product not found'
+        })
+      );
+    }
+
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.success,
+        message: 'Product fetched successfully',
+        data: collection
+      })
+    );
+  } catch (error) {
+    console.log('🚀 ~ findByModelName ~ error:', error);
+    return res.status(500).json(
+      successRes({
+        statusCode: responseCodes.serverError,
+        message: 'Internal server error'
+      })
+    );
+  }
+};
+
+
 export const findByName = async (req: Request, res: Response): Promise<any> => {
   try {
     const { limit, page, name }: { limit?: number; page?: number; name: string } =
@@ -124,7 +157,7 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
 
 export const findBySubCategoryId = async (req: Request, res: Response): Promise<any> => {
   try {
-   const subCategory = req.params.id;
+    const subCategory = req.params.id;
 
     const subcategory = await Product.findBySubCategoryId({ subCategory });
     if (!subcategory || subcategory.length === 0)
