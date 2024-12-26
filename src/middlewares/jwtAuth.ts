@@ -53,7 +53,7 @@ export const authenticateJWT = async (req: Request, res: Response, next: NextFun
     next();
   } catch (err) {
     console.log('🚀 ~ authenticateJWT ~ err:', err);
-    return res.status(403).json(
+    return res.status(401).json(
       errorRes({
         statusCode: responseCodes.unAuthorized,
         message: 'Invalid or expired token'
