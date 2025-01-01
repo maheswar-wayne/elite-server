@@ -6,6 +6,7 @@ import product from './product';
 import users from './users';
 import customer from './customer';
 import dashboard from './dashboard';
+import newsletter from './newsletter';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/dashboard', dashboard);
 router.use('/subcategory', subCategory);
 router.use('/product', product);
 router.use('/customer', customer);
+router.use('/newsletter', newsletter);
 
 export default router;

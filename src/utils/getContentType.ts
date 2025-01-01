@@ -15,6 +15,7 @@ export const getContentType = (fileFormat: string): string | null => {
     svg: 'image/svg+xml',
     tiff: 'image/tiff',
     ico: 'image/x-icon',
+    pdf: 'application/pdf',
     glb: 'model/gltf-binary',
     gltf: 'model/gltf+json'
   };
