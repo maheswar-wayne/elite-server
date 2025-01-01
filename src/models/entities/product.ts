@@ -35,6 +35,10 @@ const productSchema = new Schema(
     imgURL: {
       type: Array,
       required: true
+    },
+    modelURL: {
+      type: String,
+      required: true
     }
   },
   {

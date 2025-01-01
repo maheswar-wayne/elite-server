@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import * as Product from '../models/useCases/product';
-import * as SubCategory from "../models/useCases/subCategory"
+import * as SubCategory from '../models/useCases/subCategory';
 import { successRes } from '../configs/responseConfig';
 import { responseCodes } from '../configs/responseCodes';
 import { uploadFileToS3 } from '../utils/uploadToS3';
@@ -117,7 +117,6 @@ export const findByModelName = async (req: Request, res: Response): Promise<any>
   }
 };
 
-
 export const findByName = async (req: Request, res: Response): Promise<any> => {
   try {
     const { limit, page, name }: { limit?: number; page?: number; name: string } =
@@ -154,7 +153,6 @@ export const findByName = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-
 export const findBySubCategoryId = async (req: Request, res: Response): Promise<any> => {
   try {
     const subCategory = req.params.id;
@@ -188,10 +186,8 @@ export const findBySubCategoryId = async (req: Request, res: Response): Promise<
 
 export const findBySubCategory = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { name, limit = 10, page = 1 } = req.query as unknown as {
+    const { name } = req.query as unknown as {
       name: string;
-      limit?: number;
-      page?: number;
     };
 
     const subCategory = await SubCategory.findOne({ name });
@@ -204,8 +200,7 @@ export const findBySubCategory = async (req: Request, res: Response): Promise<an
       );
     }
 
-    const products = await Product.find({ subCategory: subCategory._id })
-
+    const products = await Product.find({ subCategory: subCategory._id });
 
     return res.status(200).json(
       successRes({
@@ -290,6 +285,7 @@ export const deleteOne = async (req: Request, res: Response): Promise<any> => {
     );
   }
 };
+
 export const uploadImage = async (req: Request, res: Response): Promise<any> => {
   try {
     const productData = req.body;
@@ -297,7 +293,7 @@ export const uploadImage = async (req: Request, res: Response): Promise<any> => 
     if (!Array.isArray(productData.images)) {
       return res.status(400).json({
         statusCode: responseCodes.badRequest,
-        message: 'Images must be an array',
+        message: 'Images must be an array'
       });
     }
 
@@ -322,6 +318,35 @@ export const uploadImage = async (req: Request, res: Response): Promise<any> => 
     );
   } catch (error) {
     console.log('🚀 ~ uploadImage ~ error:', error);
+
+    return res.status(500).json(
+      successRes({
+        statusCode: responseCodes.serverError,
+        message: 'Internal server error'
+      })
+    );
+  }
+};
+
+export const uploadModel = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { base64, filename, format, productName } = req.body;
+
+    const filePath = `3D/${productName}/${filename}`;
+    const url = await uploadFileToS3(base64, filePath, filename, format);
+
+    // Respond with success and the uploaded URLs
+    return res.status(200).json(
+      successRes({
+        statusCode: responseCodes.success,
+        message: 'File uploaded successfully',
+        data: {
+          url
+        }
+      })
+    );
+  } catch (error) {
+    console.log('🚀 ~ uploadModel ~ error:', error);
 
     return res.status(500).json(
       successRes({

@@ -10,6 +10,7 @@ export interface IProduct {
   color: string[];
   size: string;
   imgURL: string[];
+  modelURL: string;
   imageURL: string;
   createdAt?: Date;
   updatedAt?: Date;

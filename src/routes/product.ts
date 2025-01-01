@@ -8,6 +8,7 @@ import { isAdmin } from '../middlewares/isAdmin';
 const router = Router();
 
 router.route('/upload-image').post(authenticateJWT, isAdmin, productController.uploadImage);
+router.route('/upload-model').post(authenticateJWT, isAdmin, productController.uploadModel);
 
 router.route('/').get(productController.findAll);
 router.route('/search').get(productController.findByName);
