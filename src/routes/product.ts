@@ -7,9 +7,6 @@ import { isAdmin } from '../middlewares/isAdmin';
 
 const router = Router();
 
-router.route('/upload-image').post(authenticateJWT, isAdmin, productController.uploadImage);
-router.route('/upload-model').post(authenticateJWT, isAdmin, productController.uploadModel);
-
 router.route('/').get(productController.findAll);
 router.route('/search').get(productController.findByName);
 router.route('/by-subcategory').get(productController.findBySubCategory);
@@ -18,11 +15,14 @@ router.route('/model/:modelName').get(productController.findByModelName)
 router.route('/:id').get(productController.findOne);
 
 router
-  .route('/')
-  .post(authenticateJWT, validateBody(productBodySchema), isAdmin, productController.create);
+.route('/')
+.post(authenticateJWT, validateBody(productBodySchema), isAdmin, productController.create);
 router
-  .route('/:id')
-  .put(authenticateJWT, validateBody(productBodySchema), isAdmin, productController.update);
+.route('/:id')
+.put(authenticateJWT, validateBody(productBodySchema), isAdmin, productController.update);
 router.route('/:id').delete(authenticateJWT, isAdmin, productController.deleteOne);
+
+router.route('/upload-image').post(authenticateJWT, isAdmin, productController.uploadImage);
+router.route('/upload-model').post(authenticateJWT, isAdmin, productController.uploadModel);
 
 export default router;
