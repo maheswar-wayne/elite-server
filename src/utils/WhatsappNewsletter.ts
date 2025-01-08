@@ -14,12 +14,17 @@ export const sendWhatsappMessage = async ({
   phoneNumber: string;
   mediaUrl: string;
 }) => {
-  const message = await client.messages.create({
-    from: 'whatsapp:+14155238886',
-    mediaUrl: [mediaUrl],
-    to: `whatsapp:${phoneNumber}`,
-    body: desc
-  });
+  try {
+    const message = await client.messages.create({
+      from: 'whatsapp:+14155238886',
+      mediaUrl: [mediaUrl],
+      to: `whatsapp:${phoneNumber}`,
+      body: desc
+    });
 
-  console.log(message.sid);
+    console.log(message.sid);
+  } catch (error) {
+    console.log("🚀 ~ error:", error)
+    throw new Error('Error Sending Newsletter');
+  }
 };
