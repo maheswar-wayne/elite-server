@@ -330,10 +330,15 @@ export const uploadImage = async (req: Request, res: Response): Promise<any> => 
 
 export const uploadModel = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { base64, filename, format, productName } = req.body;
+    // const { base64, filename, format, productName } = req.body;
 
-    const filePath = `3D/${productName}/${filename}`;
-    const url = await uploadFileToS3(base64, filePath, filename, format);
+    // const filePath = `3D/${productName}/${filename}`;
+    // const url = await uploadFileToS3(base64, filePath, filename, format);
+    
+    let url;
+    if (req.file) {
+      url = req?.file?.location;
+    }
 
     // Respond with success and the uploaded URLs
     return res.status(200).json(
